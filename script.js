@@ -87,3 +87,502 @@ async function preencherPDF() {
     );
   }
 }
+
+// Função para validar o nome completo
+document.getElementById("nome").addEventListener("input", function (event) {
+  let input = event.target;
+
+  // Permite apenas letras e espaços, removendo números e caracteres especiais
+  input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+
+  // Formata para que cada palavra comece com maiúscula
+  input.value = input.value.replace(/\b\w/g, function (char) {
+    return char.toUpperCase();
+  });
+
+  // Remove espaços extras no início
+  input.value = input.value.trimStart();
+});
+
+// Função para verificar se o campo está vazio
+document.getElementById("nome").addEventListener("blur", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById("nome-error"); // Área de erro para Nome Completo
+
+  // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+  if (input.value.trim() === "") {
+    errorDiv.innerText = "O campo Nome Completo não pode estar vazio.";
+    errorDiv.style.display = "block";
+    input.focus();
+  } else {
+    errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+  }
+});
+
+//Placeholder Seletor "Genero"
+document.addEventListener("DOMContentLoaded", function () {
+  const select = document.getElementById("genero");
+
+  // Altera a cor do texto quando uma opção válida é selecionada
+  select.addEventListener("change", function () {
+    if (select.value !== "") {
+      select.style.color = "#000"; // Cor do texto normal
+    } else {
+      select.style.color = "#999"; // Cor do placeholder
+    }
+  });
+});
+
+//Placeholder Seletor "Estado Civil"
+document.addEventListener("DOMContentLoaded", function () {
+  const select = document.getElementById("estado_civil");
+
+  // Altera a cor do texto quando uma opção válida é selecionada
+  select.addEventListener("change", function () {
+    if (select.value !== "") {
+      select.style.color = "#000"; // Cor do texto normal
+    } else {
+      select.style.color = "#999"; // Cor do placeholder
+    }
+  });
+});
+
+//Restrições "NIF" e "NIF da Empresa"
+function validarNIF(event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Permite apenas números
+  input.value = input.value.replace(/\D/g, "");
+
+  // Limita o campo a 9 caracteres
+  if (input.value.length > 9) {
+    input.value = input.value.slice(0, 9);
+  }
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  errorDiv.style.display = "none";
+}
+
+// Função para verificar o tamanho do NIF ao sair do campo
+function verificarTamanhoNIF(event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Verifica se o NIF tem exatamente 9 dígitos
+  if (input.value.length !== 9) {
+    errorDiv.innerText = "O NIF deve conter exatamente 9 dígitos.";
+    errorDiv.style.display = "block";
+    input.focus();
+  }
+}
+
+// Aplica as validações para o campo "nif"
+document.getElementById("nif").addEventListener("input", validarNIF);
+document.getElementById("nif").addEventListener("blur", verificarTamanhoNIF);
+
+// Aplica as mesmas validações para o campo "nif_da_empresa"
+document.getElementById("nif_da_empresa").addEventListener("input", validarNIF);
+document
+  .getElementById("nif_da_empresa")
+  .addEventListener("blur", verificarTamanhoNIF);
+
+//Restrições "Numero de CC"
+document.getElementById("ncc").addEventListener("input", function (event) {
+  let input = event.target;
+  let value = input.value.toUpperCase(); // Força letras maiúsculas
+
+  // Remove caracteres inválidos (permite apenas letras maiúsculas e números)
+  value = value.replace(/[^A-Z0-9]/g, "");
+
+  // Garante que o tamanho máximo seja 12 caracteres
+  if (value.length > 12) {
+    value = value.slice(0, 12);
+  }
+
+  input.value = value;
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  document.getElementById("ncc-error").style.display = "none";
+});
+
+document.getElementById("ncc").addEventListener("blur", function (event) {
+  let input = event.target;
+  let value = input.value;
+  let errorMessage = ""; // Variável para armazenar a mensagem de erro
+
+  // Verifica se tem exatamente 12 caracteres
+  if (value.length !== 12) {
+    errorMessage = "O Nº CC deve ter exatamente 12 caracteres.";
+  }
+
+  // Verifica se os primeiros 9 caracteres são números
+  let primeirosNove = value.slice(0, 9);
+  if (!/^\d{9}$/.test(primeirosNove)) {
+    errorMessage = "Os primeiros 9 caracteres devem ser números.";
+  }
+
+  // Verifica se as posições 10 e 11 são letras maiúsculas
+  let letrasNoMeio = value.slice(9, 11);
+  if (!/^[A-Z]{2}$/.test(letrasNoMeio)) {
+    errorMessage = "Os caracteres 10 e 11 devem ser duas letras maiúsculas.";
+  }
+
+  // Verifica se o último caractere (posição 12) é um número
+  let ultimoNumero = value.slice(11, 12);
+  if (!/^\d$/.test(ultimoNumero)) {
+    errorMessage = "O último caractere (12º) deve ser um número.";
+  }
+
+  // Exibe a mensagem de erro se houver algum problema
+  if (errorMessage) {
+    document.getElementById("ncc-error").innerText = errorMessage;
+    document.getElementById("ncc-error").style.display = "block"; // Exibe o erro
+    input.focus();
+  }
+});
+
+//Restrições "Codigo Postal"
+document.getElementById("cp").addEventListener("input", function (event) {
+  let input = event.target;
+  let value = input.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja número
+
+  // Garante que apenas os primeiros 7 caracteres sejam considerados
+  if (value.length > 7) {
+    value = value.slice(0, 7);
+  }
+
+  // Adiciona o traço automaticamente após os primeiros 4 números
+  if (value.length > 4) {
+    value = value.slice(0, 4) + "-" + value.slice(4);
+  }
+
+  input.value = value;
+});
+
+// Função para verificar o formato ao sair do campo
+document.getElementById("cp").addEventListener("blur", function (event) {
+  let input = event.target;
+  let value = input.value;
+  let errorDiv = document.getElementById("cp-error"); // Área de erro para CP
+
+  // Verifica se o código postal tem exatamente o formato 0000-000
+  if (!/^\d{4}-\d{3}$/.test(value)) {
+    errorDiv.innerText = "O Código Postal deve estar no formato 0000-000.";
+    errorDiv.style.display = "block";
+    input.focus();
+  } else {
+    errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+  }
+});
+
+//Restrições "NISS"
+document.getElementById("niss").addEventListener("input", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Permite apenas números
+  input.value = input.value.replace(/\D/g, "");
+
+  // Limita o campo a 11 caracteres
+  if (input.value.length > 11) {
+    input.value = input.value.slice(0, 11);
+  }
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  errorDiv.style.display = "none";
+});
+
+// Verifica se o NISS tem exatamente 11 dígitos ao perder o foco
+document.getElementById("niss").addEventListener("blur", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Se o NISS não tiver 11 dígitos, exibe a mensagem de erro
+  if (input.value.length !== 11) {
+    errorDiv.innerText = "O NISS deve conter exatamente 11 dígitos.";
+    errorDiv.style.display = "block";
+    input.focus();
+  }
+});
+
+//Restrições "País"
+document.getElementById("pais").addEventListener("input", function (event) {
+  let input = event.target;
+
+  // Remove números e caracteres especiais, permitindo apenas letras e espaços
+  input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+
+  // Formata para que cada palavra comece com maiúscula
+  input.value = input.value.replace(/\b\w/g, function (char) {
+    return char.toUpperCase();
+  });
+
+  // Remove espaços extras no início e no fim
+  input.value = input.value.trimStart();
+});
+
+// Função para verificar se o campo está vazio
+document.getElementById("pais").addEventListener("blur", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById("pais-error"); // Área de erro para País
+
+  // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+  if (input.value.trim() === "") {
+    errorDiv.innerText = "O campo País não pode estar vazio.";
+    errorDiv.style.display = "block";
+    input.focus();
+  } else {
+    errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+  }
+});
+
+//Restrições "Morada" e "Morada_Empresa"
+function validarMorada(event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Permite apenas letras, números e espaços (remove caracteres especiais)
+  input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, "");
+
+  // Formata para que cada palavra comece com maiúscula
+  input.value = input.value.replace(/\b\w/g, function (char) {
+    return char.toUpperCase();
+  });
+
+  // Remove espaços extras no início
+  input.value = input.value.trimStart();
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  errorDiv.style.display = "none";
+}
+
+// Função para verificar se o campo está vazio
+function verificarCampoVazio(event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+
+  // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+  if (input.value.trim() === "") {
+    errorDiv.innerText = "O campo de morada não pode estar vazio.";
+    errorDiv.style.display = "block";
+    input.focus();
+  }
+}
+
+// Aplica a validação para o campo "morada"
+document.getElementById("morada").addEventListener("input", validarMorada);
+document.getElementById("morada").addEventListener("blur", verificarCampoVazio);
+
+// Aplica a mesma validação para o campo "morada_empresa"
+document
+  .getElementById("morada_empresa")
+  .addEventListener("input", validarMorada);
+document
+  .getElementById("morada_empresa")
+  .addEventListener("blur", verificarCampoVazio);
+
+//Restrições "Localidade"
+document
+  .getElementById("localidade")
+  .addEventListener("input", function (event) {
+    let input = event.target;
+
+    // Permite apenas letras e espaços, removendo números e caracteres especiais
+    input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+
+    // Formata para que cada palavra comece com maiúscula
+    input.value = input.value.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+
+    // Remove espaços extras no início
+    input.value = input.value.trimStart();
+  });
+
+// Função para verificar se o campo está vazio
+document
+  .getElementById("localidade")
+  .addEventListener("blur", function (event) {
+    let input = event.target;
+    let errorDiv = document.getElementById("localidade-error"); // Área de erro para Localidade
+
+    // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+    if (input.value.trim() === "") {
+      errorDiv.innerText = "O campo Localidade não pode estar vazio.";
+      errorDiv.style.display = "block";
+      input.focus();
+    } else {
+      errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+    }
+  });
+
+//Restrições "Distrito"
+document.getElementById("distrito").addEventListener("input", function (event) {
+  let input = event.target;
+
+  // Permite apenas letras e espaços, removendo números e caracteres especiais
+  input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+
+  // Formata para que cada palavra comece com maiúscula
+  input.value = input.value.replace(/\b\w/g, function (char) {
+    return char.toUpperCase();
+  });
+
+  // Remove espaços extras no início
+  input.value = input.value.trimStart();
+});
+
+// Função para verificar se o campo está vazio
+document.getElementById("distrito").addEventListener("blur", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById("distrito-error"); // Área de erro para Distrito
+
+  // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+  if (input.value.trim() === "") {
+    errorDiv.innerText = "O campo Distrito não pode estar vazio.";
+    errorDiv.style.display = "block";
+    input.focus();
+  } else {
+    errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+  }
+});
+
+//Restrições "Telemovel"
+// Função para validar os números de telemóvel e telefone
+function validarNumero(event) {
+  let input = event.target;
+
+  // Permite apenas números
+  input.value = input.value.replace(/\D/g, "");
+
+  // Limita a 9 dígitos
+  if (input.value.length > 9) {
+    input.value = input.value.slice(0, 9);
+  }
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  let errorDiv = document.getElementById(input.id + "-error");
+  errorDiv.style.display = "none";
+}
+
+// Função para verificar a validade ao sair do campo
+function verificarTamanho(event) {
+  let input = event.target;
+  let errorDiv = document.getElementById(input.id + "-error");
+
+  // Verifica se o número tem exatamente 9 dígitos
+  if (input.value.length !== 9) {
+    errorDiv.innerText = "O número de telefone deve ter exatamente 9 dígitos.";
+    errorDiv.style.display = "block";
+    input.focus();
+  }
+}
+
+// Aplica o evento "input" para os campos
+document.getElementById("telemovel").addEventListener("input", validarNumero);
+document
+  .getElementById("telemovel_empresa")
+  .addEventListener("input", validarNumero);
+document.getElementById("telefone").addEventListener("input", validarNumero);
+document
+  .getElementById("telefone_empresa")
+  .addEventListener("input", validarNumero);
+
+// Aplica o evento "blur" para os campos
+document.getElementById("telemovel").addEventListener("blur", verificarTamanho);
+document
+  .getElementById("telemovel_empresa")
+  .addEventListener("blur", verificarTamanho);
+document.getElementById("telefone").addEventListener("blur", verificarTamanho);
+document
+  .getElementById("telefone_empresa")
+  .addEventListener("blur", verificarTamanho);
+
+// Função para validar o e-mail
+function validarEmail(event) {
+  let input = event.target; // Define o input
+  let errorDiv = document.getElementById(input.id + "-error"); // Define a área de erro
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  // Limpa a mensagem de erro quando o usuário começa a digitar
+  errorDiv.style.display = "none";
+
+  // Verifica se o e-mail segue o padrão
+  if (!emailPattern.test(input.value)) {
+    errorDiv.innerText = "O E-mail inserido não está correto.";
+    errorDiv.style.display = "block";
+    input.focus();
+  }
+}
+
+// Aplica o evento "input" para o campo de email
+document.getElementById("email").addEventListener("input", validarEmail);
+
+// Função para validar a entrada no campo "Entidade Patronal"
+document
+  .getElementById("entidade_patronal")
+  .addEventListener("input", function (event) {
+    let input = event.target;
+
+    // Remove números e caracteres especiais, permitindo apenas letras e espaços
+    input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, "");
+
+    // Formata para que cada palavra comece com maiúscula
+    input.value = input.value.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+
+    // Remove espaços extras no início
+    input.value = input.value.trimStart();
+  });
+
+// Função para verificar se o campo está vazio ao perder o foco
+document
+  .getElementById("entidade_patronal")
+  .addEventListener("blur", function (event) {
+    let input = event.target;
+    let errorDiv = document.getElementById("entidade_patronal-error"); // Área de erro para Entidade Patronal
+
+    // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+    if (input.value.trim() === "") {
+      errorDiv.innerText = "O campo Entidade Patronal não pode estar vazio.";
+      errorDiv.style.display = "block";
+      input.focus();
+    } else {
+      errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+    }
+  });
+
+// Função para validar a entrada no campo "Profissão"
+document
+  .getElementById("profissao")
+  .addEventListener("input", function (event) {
+    let input = event.target;
+
+    // Remove números e caracteres especiais, permitindo apenas letras e espaços
+    input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ0-9\s]/g, "");
+
+    // Formata para que cada palavra comece com maiúscula
+    input.value = input.value.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+
+    // Remove espaços extras no início
+    input.value = input.value.trimStart();
+  });
+
+// Função para verificar se o campo está vazio ao perder o foco
+document.getElementById("profissao").addEventListener("blur", function (event) {
+  let input = event.target;
+  let errorDiv = document.getElementById("profissao-error"); // Área de erro para Profissão
+
+  // Se o campo estiver vazio ou só tiver espaços, exibe a mensagem de erro
+  if (input.value.trim() === "") {
+    errorDiv.innerText = "O campo Profissão não pode estar vazio.";
+    errorDiv.style.display = "block";
+    input.focus();
+  } else {
+    errorDiv.style.display = "none"; // Se for válido, esconde a mensagem de erro
+  }
+});
