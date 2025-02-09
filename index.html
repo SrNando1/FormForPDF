@@ -17,6 +17,7 @@
       <form id="dadosPessoais" autocomplete="on">
         <label for="nome">Nome Completo:</label>
         <input type="text" id="nome" name="nome" autocomplete="name" required />
+        <div id="nome-error" style="color: red; display: none"></div>
 
         <label for="data_nascimento">Data de Nascimento:</label>
         <input
@@ -29,6 +30,7 @@
 
         <label for="genero">Genêro:</label>
         <select id="genero" name="genero" autocomplete="sex">
+          <option value="" disabled selected hidden>Escolha uma opção</option>
           <option value="masculino">Masculino</option>
           <option value="feminino">Feminino</option>
           <option value="outro">Outro</option>
@@ -36,6 +38,7 @@
 
         <label for="estado_civil">Estado Civil:</label>
         <select id="estado_civil" name="estado_civil" autocomplete="status">
+          <option value="" disabled selected hidden>Escolha uma opção</option>
           <option value="solteiro">Solteiro(a)</option>
           <option value="casado">Casado(a)</option>
           <option value="divorciado">Divorciado(a)</option>
@@ -44,9 +47,11 @@
 
         <label for="nif">NIF:</label>
         <input type="text" id="nif" name="nif" autocomplete="off" required />
+        <div id="nif-error" style="color: red; display: none"></div>
 
         <label for="ncc">Nº CC:</label>
         <input type="text" id="ncc" name="ncc" autocomplete="off" required />
+        <div id="ncc-error" style="color: red; display: none"></div>
 
         <label for="data_cc">Validade do CC:</label>
         <input
@@ -59,6 +64,7 @@
 
         <label for="niss">NISS:</label>
         <input type="text" id="niss" name="niss" autocomplete="off" required />
+        <div id="niss-error" style="color: red; display: none"></div>
 
         <h2>Contactos</h2>
 
@@ -70,6 +76,7 @@
           autocomplete="address-line1"
           required
         />
+        <div id="morada-error" style="color: red; display: none"></div>
 
         <label for="cp">Código Postal:</label>
         <input
@@ -79,6 +86,7 @@
           autocomplete="postal-code"
           required
         />
+        <div id="cp-error" style="color: red; display: none"></div>
 
         <label for="localidade">Localidade:</label>
         <input
@@ -88,6 +96,7 @@
           autocomplete="address-level2"
           required
         />
+        <div id="localidade-error" style="color: red; display: none"></div>
 
         <label for="distrito">Distrito:</label>
         <input
@@ -97,6 +106,7 @@
           autocomplete="address-level1"
           required
         />
+        <div id="distrito-error" style="color: red; display: none"></div>
 
         <label for="pais">País:</label>
         <input
@@ -106,6 +116,7 @@
           autocomplete="country"
           required
         />
+        <div id="pais-error" style="color: red; display: none"></div>
 
         <label for="telemovel">Telemovel:</label>
         <input
@@ -115,6 +126,7 @@
           autocomplete="tel"
           required
         />
+        <div id="telemovel-error" style="color: red; display: none"></div>
 
         <label for="telefone">Telefone:</label>
         <input
@@ -124,6 +136,7 @@
           autocomplete="tel"
           required
         />
+        <div id="telefone-error" style="color: red; display: none"></div>
 
         <label for="email">E-mail:</label>
         <input
@@ -133,6 +146,7 @@
           autocomplete="email"
           required
         />
+        <div id="email-error" style="color: red; display: none"></div>
 
         <h2>Dados Profissionais</h2>
 
@@ -144,6 +158,10 @@
           autocomplete="organization"
           required
         />
+        <div
+          id="entidade_patronal-error"
+          style="color: red; display: none"
+        ></div>
 
         <label for="profissao">Profissão:</label>
         <input
@@ -153,6 +171,7 @@
           autocomplete="off"
           required
         />
+        <div id="profissao-error" style="color: red; display: none"></div>
 
         <label for="nif_da_empresa">NIF da Empresa:</label>
         <input
@@ -162,6 +181,7 @@
           autocomplete="off"
           required
         />
+        <div id="nif_da_empresa-error" style="color: red; display: none"></div>
 
         <label for="telemovel_empresa">Telemovel:</label>
         <input
@@ -171,6 +191,10 @@
           autocomplete="tel"
           required
         />
+        <div
+          id="telemovel_empresa-error"
+          style="color: red; display: none"
+        ></div>
 
         <label for="telefone_empresa">Telefone:</label>
         <input
@@ -180,6 +204,10 @@
           autocomplete="tel"
           required
         />
+        <div
+          id="telefone_empresa-error"
+          style="color: red; display: none"
+        ></div>
 
         <label for="morada_empresa">Morada Empresa:</label>
         <input
@@ -189,6 +217,7 @@
           autocomplete="address-line1"
           required
         />
+        <div id="morada_empresa-error" style="color: red; display: none"></div>
 
         <button type="submit">Preencher PDF</button>
       </form>
