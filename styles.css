@@ -58,3 +58,36 @@ button:hover {
 .btn-preencher:hover {
   background-color: #555;
 }
+
+.select-container {
+  position: relative;
+  display: inline-block;
+}
+
+#genero {
+  padding: 5px;
+  font-size: 14px;
+  color: #999; /* Cor do placeholder */
+}
+
+#genero option {
+  color: #000; /* Cor das opções */
+}
+
+#genero option[disabled][selected] {
+  display: none; /* Oculta o placeholder no menu suspenso */
+}
+
+#estado_civil {
+  padding: 5px;
+  font-size: 14px;
+  color: #999; /* Cor do placeholder */
+}
+
+#estado_civil option {
+  color: #000; /* Cor das opções */
+}
+
+#estado_civil option[disabled][selected] {
+  display: none; /* Oculta o placeholder no menu suspenso */
+}
